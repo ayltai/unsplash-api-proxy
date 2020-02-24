@@ -1,0 +1,8 @@
+runtime: nodejs12
+instance_class: F1
+service: default
+entrypoint: node app.js
+
+env_variables:
+  PORT: 8080
+  NODE_ENV: production

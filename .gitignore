@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# WebStorm
+.idea/
+*.iml
+
+# Dependencies
+node_modules/
+
+# Generated
+.scannerwork/
+.terraform/
+
+# Transient
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Credentails
+**/credentials.json

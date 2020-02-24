@@ -1,0 +1,138 @@
+version: 2
+
+references:
+
+  ## Cache
+
+  cache_key: &cache_key
+    key: cache-{{ checksum "package-lock.json" }}
+  restore_cache: &restore_cache
+    restore_cache:
+      <<: *cache_key
+  save_cache: &save_cache
+    save_cache:
+      <<: *cache_key
+      paths:
+        - ./node_modules
+
+  ## Docker image configuration
+
+  config_nodejs: &config_nodejs
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/node:12
+    environment:
+      TERM: dumb
+
+  config_terraform: &config_terraform
+    working_directory: ~/workspace
+    docker:
+      - image: ayltai/unsplash-api-proxy:latest
+    environment:
+      TERM: dumb
+
+jobs:
+
+  dependencies:
+    <<: *config_nodejs
+    steps:
+      - checkout
+      - *restore_cache
+      - run:
+          name: Install dependencies
+          command: npm i -D
+      - *save_cache
+
+  check_nodejs:
+    <<: *config_nodejs
+    steps:
+      - checkout
+      - *restore_cache
+      - run:
+          name: Run ESLint
+          command: npm run check
+
+  check_terraform:
+    <<: *config_terraform
+    steps:
+      - checkout
+      - run:
+          name: Check if Terraform scripts are properly formatted
+          command: terraform fmt -check -write=false
+          working_directory: terraform
+
+  build:
+    <<: *config_nodejs
+    steps:
+      - checkout
+      - run:
+          name: Create a zip file containing the files to be deployed
+          command: zip unsplash-api-proxy.zip package.json package-lock.json app.js app.yaml
+      - store_artifacts:
+          path: unsplash-api-proxy.zip
+          destination: unsplash-api-proxy.zip
+
+  deploy:
+    <<: *config_terraform
+    steps:
+      - checkout
+      - run:
+          name: Install jq and curl
+          command: apt-get -y install jq curl
+      - run:
+          name: Download deployment artifact
+          command: wget $(curl "https://circleci.com/api/v1.1/project/github/ayltai/unsplash-api-proxy/latest/artifacts?filter=successful&circle-token=${CIRCLECI_TOKEN}" | jq -r '.[0].url')
+      - run:
+          name: Configure credentials for accessing Terraform Cloud backend
+          command: echo $TERRAFORM_TOKEN | base64 -di > ~/.terraformrc
+      - run:
+          name: Configure credentials for accessing Google Cloud Platform
+          command: echo $GCP_CREDENTIALS | base64 -di > ./credentials.json
+          working_directory: terraform
+      - run:
+          name: Initialize Terraform backend and plugins
+          command: echo 1 | terraform init
+          working_directory: terraform
+      - run:
+          name: Validate the syntax of Terraform scripts
+          command: terraform validate
+          working_directory: terraform
+      - run:
+          name: Plan for the changes
+          command: terraform plan -var unsplash_access_key=$UNSPLASH_ACCESS_KEY -out main
+          working_directory: terraform
+      - run:
+          name: Apply the changes
+          command: terraform apply main
+          working_directory: terraform
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - dependencies
+      - check_terraform
+      - check_nodejs:
+          requires:
+            - dependencies
+      - build:
+          requires:
+            - dependencies
+            - check_nodejs
+          filters:
+            branches:
+              only:
+                - master
+      - approval:
+          type: approval
+          requires:
+            - check_terraform
+      - deploy:
+          requires:
+            - check_terraform
+            - build
+            - approval
+          filters:
+            branches:
+              only:
+                - master
