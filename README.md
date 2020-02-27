@@ -8,6 +8,8 @@
 
 Serves as a proxy on [Google App Engine](https://cloud.google.com/appengine) to communicate with [Unsplash](https://unsplash.com) API server using your specified access key.
 
+[![Buy me a coffee](https://img.shields.io/static/v1?label=Buy%20me%20a&message=coffee&color=important&style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buymeacoff.ee/ayltai)
+
 ## How it works
 It acts as a web proxy and add `client_id=[YOUR_UNSPLASH_ACCESS_KEY]` to all requests and send them to `https://api.unsplash.com`. It uses [Express HTTP Proxy](https://github.com/villadora/express-http-proxy) behind the scene.
 
