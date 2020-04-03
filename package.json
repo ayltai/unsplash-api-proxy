@@ -1,35 +1,38 @@
 {
-    "name"            : "unsplash-api-proxy",
-    "description"     : "Serves as a proxy on Google App Engine to communicate with Unsplash API server using your specified access key.",
-    "version"         : "1.0.0",
-    "author"          : "Alan Tai",
-    "repository"      : {
-        "type" : "git",
-        "url"  : "git+https://github.com/ayltai/unsplash-api-proxy.git"
+    "name": "unsplash-api-proxy",
+    "description": "Serves as a proxy on Google App Engine to communicate with Unsplash API server using your specified access key.",
+    "version": "1.0.1",
+    "author": "Alan Tai",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ayltai/unsplash-api-proxy.git"
     },
-    "bugs"            : {
-        "url" : "https://github.com/ayltai/unsplash-api-proxy/issues"
+    "bugs": {
+        "url": "https://github.com/ayltai/unsplash-api-proxy/issues"
     },
-    "license"         : "Apache-2.0",
-    "keywords"        : [
+    "license": "Apache-2.0",
+    "keywords": [
         "unsplash",
         "api",
         "proxy"
     ],
-    "scripts"         : {
-        "check" : "./node_modules/.bin/eslint *.js",
-        "start" : "node app.js"
+    "scripts": {
+        "check": "./node_modules/.bin/eslint *.js",
+        "preinstall": "npx npm-force-resolutions",
+        "start": "node app.js"
     },
-    "dependencies"    : {
-        "compression"        : "^1.7.4",
-        "express"            : "^4.17.1",
-        "express-http-proxy" : "^1.6.0",
-        "http-proxy"         : "^1.18.0"
+    "dependencies": {
+        "express": "^4.17.1",
+        "express-http-proxy": "^1.6.0",
+        "http-proxy": "^1.18.0"
     },
-    "devDependencies" : {
-        "eslint" : "^6.8.0"
+    "devDependencies": {
+        "eslint": "^6.8.0"
     },
-    "engines"         : {
-        "node" : "~12"
+    "resolutions": {
+        "minimist": "1.2.5"
+    },
+    "engines": {
+        "node": "~12"
     }
 }

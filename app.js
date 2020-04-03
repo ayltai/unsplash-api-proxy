@@ -1,5 +1,4 @@
 const app = require('express')();
-app.use(require('compression')());
 
 app.use('/', require('express-http-proxy')(process.env.REACT_APP_ENDPOINT || 'https://api.unsplash.com', {
     proxyReqPathResolver : request => {

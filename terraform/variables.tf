@@ -5,7 +5,7 @@ variable "project_id" {
 
 variable "region_id" {
   description = "The region to deploy the App Engine project to"
-  default     = "us-central1"
+  default     = "us-central"
 }
 
 variable "service_name" {
