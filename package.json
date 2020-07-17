@@ -18,7 +18,6 @@
     ],
     "scripts": {
         "check": "./node_modules/.bin/eslint *.js",
-        "preinstall": "npx npm-force-resolutions",
         "start": "node app.js"
     },
     "dependencies": {
@@ -30,9 +29,6 @@
     },
     "devDependencies": {
         "eslint": "^7.4.0"
-    },
-    "resolutions": {
-        "minimist": "1.2.5"
     },
     "engines": {
         "node": "~12"
