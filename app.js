@@ -6,9 +6,6 @@ app.use('/', require('express-http-proxy')(process.env.REACT_APP_ENDPOINT || 'ht
 
         return `${parts[0]}?client_id=${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}` + (parts.length ? `&${parts[1]}` : '');
     },
-    userResDecorator     : (response, data) => {
-        return response.headers['content-encoding'] === 'br' ? require('iltorb').decompress(data) : data;
-    },
 }));
 
 app.listen(process.env.PORT || 8080, '0.0.0.0');

@@ -21,11 +21,9 @@
         "start": "node app.js"
     },
     "dependencies": {
-        "compression": "^1.7.4",
         "express": "^4.17.1",
         "express-http-proxy": "^1.6.0",
-        "http-proxy": "^1.18.1",
-        "iltorb": "^2.4.5"
+        "http-proxy": "^1.18.1"
     },
     "devDependencies": {
         "eslint": "^7.4.0"
