@@ -1,7 +1,7 @@
 {
     "name": "unsplash-api-proxy",
     "description": "Serves as a proxy on Google App Engine to communicate with Unsplash API server using your specified access key.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "Alan Tai",
     "repository": {
         "type": "git",
@@ -25,11 +25,11 @@
         "compression": "^1.7.4",
         "express": "^4.17.1",
         "express-http-proxy": "^1.6.0",
-        "http-proxy": "^1.18.0",
+        "http-proxy": "^1.18.1",
         "iltorb": "^2.4.5"
     },
     "devDependencies": {
-        "eslint": "^7.0.0"
+        "eslint": "^7.4.0"
     },
     "resolutions": {
         "minimist": "1.2.5"
